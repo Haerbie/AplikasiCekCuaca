@@ -33,7 +33,7 @@ Menggunakan **ActionListener** dan **ItemListener** untuk menangani interaksi pe
 Mengambil data cuaca berdasarkan nama kota yang dimasukkan dan menampilkan informasi cuaca pada aplikasi.
 
     private void tombolCekCuacaActionPerformed(java.awt.event.ActionEvent evt) {                                               
-        String cityName = txtCityName.getText();
+        String cityName = namaKota.getText();
         if (!cityName.isEmpty()) {
             tampilkanCuaca(cityName);
 
@@ -52,7 +52,7 @@ Mengambil data cuaca berdasarkan nama kota yang dimasukkan dan menampilkan infor
         } else {
             JOptionPane.showMessageDialog(this, "Silakan masukkan nama kota!");
         }
-    }
+    } 
 
 ### B. ItemListener pada JComboBox
 Mengambil data cuaca untuk kota yang dipilih dari **JComboBox** dan menampilkannya di aplikasi.
@@ -60,7 +60,7 @@ Mengambil data cuaca untuk kota yang dipilih dari **JComboBox** dan menampilkann
     private void comboBoxCityItemStateChanged(java.awt.event.ItemEvent evt) {                                              
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             String selectedCity = (String) comboBoxCity.getSelectedItem();
-            txtCityName.setText(selectedCity); // Mengisi txtCityName dengan kota yang dipilih
+            namaKota.setText(selectedCity); // Mengisi txtCityName dengan kota yang dipilih
         }
     }  
 
