@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.json.JSONObject;
@@ -43,14 +44,30 @@ public class CekCuacaFrame extends javax.swing.JFrame {
     }
 
     public void tampilkanCuaca(String cityName) {
+        // Dapatkan data cuaca dalam bentuk JSON
         String jsonData = dapatkanDataCuaca(cityName);
-        JSONObject jsonObject = new JSONObject(jsonData);
-        String weatherDescription = jsonObject.getJSONArray("weather").getJSONObject(0).getString("description");
-        double temperature = jsonObject.getJSONObject("main").getDouble("temp");
+        JSONObject jsonObjek = new JSONObject(jsonData);
 
-        // Update JLabel dengan data cuaca
-        lblWeatherDescription.setText(weatherDescription);
-        lblTemperature.setText(temperature + "°C");
+        // Ambil deskripsi cuaca dan suhu dari JSON
+        String deskripsiCuaca = jsonObjek.getJSONArray("weather").getJSONObject(0).getString("description");
+        String kodeIkon = jsonObjek.getJSONArray("weather").getJSONObject(0).getString("icon"); // Point 1: Dapatkan kode ikon cuaca
+        double suhu = jsonObjek.getJSONObject("main").getDouble("temp");
+
+        // Set teks deskripsi cuaca dan suhu ke JLabel
+        labelDeskripsiCuaca.setText(deskripsiCuaca);
+        labelSuhu.setText(suhu + "°C");
+
+        // Buat URL untuk ikon cuaca berdasarkan kode ikon
+        String urlIkon = "http://openweathermap.org/img/wn/" + kodeIkon + "@2x.png";
+
+        try {
+            // Load ikon dari URL dan set ke JLabel
+            ImageIcon ikonCuaca = new ImageIcon(new URL(urlIkon));
+            labelIkonCuaca.setIcon(ikonCuaca);
+        } catch (Exception e) {
+            e.printStackTrace();
+            labelIkonCuaca.setText("Gagal memuat ikon cuaca");
+        }
     }
     
     private void simpanKotaKeFile() {
@@ -124,9 +141,9 @@ public class CekCuacaFrame extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         tombolCekCuaca = new javax.swing.JButton();
         comboBoxCity = new javax.swing.JComboBox<>();
-        lblWeatherDescription = new javax.swing.JLabel();
-        lblTemperature = new javax.swing.JLabel();
-        txtCityName = new javax.swing.JTextField();
+        labelDeskripsiCuaca = new javax.swing.JLabel();
+        labelSuhu = new javax.swing.JLabel();
+        namaKota = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -134,6 +151,7 @@ public class CekCuacaFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelCuaca = new javax.swing.JTable();
         tombolMuatDataCuaca = new javax.swing.JButton();
+        labelIkonCuaca = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -156,7 +174,7 @@ public class CekCuacaFrame extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 20);
@@ -183,7 +201,7 @@ public class CekCuacaFrame extends javax.swing.JFrame {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 20);
         jPanel2.add(tombolCekCuaca, gridBagConstraints);
@@ -196,6 +214,7 @@ public class CekCuacaFrame extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 20);
@@ -203,24 +222,26 @@ public class CekCuacaFrame extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 20);
-        jPanel2.add(lblWeatherDescription, gridBagConstraints);
+        jPanel2.add(labelDeskripsiCuaca, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 20);
-        jPanel2.add(lblTemperature, gridBagConstraints);
+        jPanel2.add(labelSuhu, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 40;
         gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 20);
-        jPanel2.add(txtCityName, gridBagConstraints);
+        jPanel2.add(namaKota, gridBagConstraints);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel4.setText("Cuaca            :");
@@ -283,7 +304,7 @@ public class CekCuacaFrame extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tabelCuaca);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridheight = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -300,12 +321,18 @@ public class CekCuacaFrame extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 20);
         jPanel2.add(tombolMuatDataCuaca, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.ipadx = 20;
+        gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 20);
+        jPanel2.add(labelIkonCuaca, gridBagConstraints);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
@@ -313,7 +340,7 @@ public class CekCuacaFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tombolCekCuacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tombolCekCuacaActionPerformed
-        String cityName = txtCityName.getText();
+        String cityName = namaKota.getText();
         if (!cityName.isEmpty()) {
             tampilkanCuaca(cityName);
 
@@ -337,14 +364,14 @@ public class CekCuacaFrame extends javax.swing.JFrame {
     private void comboBoxCityItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboBoxCityItemStateChanged
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             String selectedCity = (String) comboBoxCity.getSelectedItem();
-            txtCityName.setText(selectedCity); // Mengisi txtCityName dengan kota yang dipilih
+            namaKota.setText(selectedCity); // Mengisi txtCityName dengan kota yang dipilih
         }
     }//GEN-LAST:event_comboBoxCityItemStateChanged
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        String cityName = txtCityName.getText();
-        String weatherDescription = lblWeatherDescription.getText();
-        String temperature = lblTemperature.getText();
+        String cityName = namaKota.getText();
+        String weatherDescription = labelDeskripsiCuaca.getText();
+        String temperature = labelSuhu.getText();
 
         if (!cityName.isEmpty() && !weatherDescription.isEmpty() && !temperature.isEmpty()) {
             simpanDataCuacaKeFile(cityName, weatherDescription, Double.parseDouble(temperature.replace("°C", "")));
@@ -419,11 +446,12 @@ public class CekCuacaFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblTemperature;
-    private javax.swing.JLabel lblWeatherDescription;
+    private javax.swing.JLabel labelDeskripsiCuaca;
+    private javax.swing.JLabel labelIkonCuaca;
+    private javax.swing.JLabel labelSuhu;
+    private javax.swing.JTextField namaKota;
     private javax.swing.JTable tabelCuaca;
     private javax.swing.JButton tombolCekCuaca;
     private javax.swing.JButton tombolMuatDataCuaca;
-    private javax.swing.JTextField txtCityName;
     // End of variables declaration//GEN-END:variables
 }
