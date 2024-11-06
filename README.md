@@ -123,7 +123,7 @@ Fitur untuk Memuat Data Cuaca yang Tersimpan dan Menampilkannya di JTable
 ## 6. Tampilan Pada Saat Aplikasi Di Jalankan
 ![TampilanCekCuaca](https://github.com/user-attachments/assets/169b04ca-2a5a-4d7c-acf4-aee4ab01b415)
 
-## 6. Indikator Penilaian
+## 7. Indikator Penilaian
 
 | No  | Komponen          | Persentase |
 | :-: | ------------------ | :--------: |
